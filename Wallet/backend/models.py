@@ -15,8 +15,8 @@ class Account(models.Model):
         return f'{self.title} by {self.user} with balance:{self.balance}'
 
 class Operation(models.Model):
-    operation_from = models.ManyToManyField(Account, on_delete=models.CASCADE)
-    operation_to = models.ForeignKey(Account, on_delete=models.CASCADE)
+    operation_from = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='operation_from')
+    operation_to = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='operation_eto')
     sum = models.DecimalField(max_digits=12, decimal_places=2, validators=[
         MinValueValidator(0.01),
         MaxValueValidator(10 ** 9)])
