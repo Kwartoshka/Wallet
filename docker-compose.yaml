@@ -40,6 +40,6 @@ services:
       - backend_migrate
       - backend
     image: wallet
-    command: 'python /Wallet/Wallet/manage.py loaddata db.json'
+    command: 'python /Wallet/Wallet/manage.py loaddata /Wallet/Wallet/db.json'
     ports:
       - 8002:8000
