@@ -27,10 +27,11 @@ class PersonalAccountsViewSet(ModelViewSet):
         return []
 
 class AccountsViewSet(ModelViewSet):
+
     queryset = Account.objects.all()
-    serializer_class = AccountSerializer
-    # filter_backends = [DjangoFilterBackend]
-    # filterset_class = ProductFilter
+    # serializer_class = AccountSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'user']
 
     def get_permissions(self):
         if self.action in ['create', 'destroy', 'update']:
@@ -40,11 +41,22 @@ class AccountsViewSet(ModelViewSet):
         else:
             return []
 
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            account = Account.objects.filter(id=self.kwargs['pk']).first()
+            print(account)
+            if account.user == self.request.user:
+                return PersonalAccountSerializer
+            else:
+                return AccountSerializer
+        else:
+            return AccountSerializer
+
 class OperationsViewSet(ModelViewSet):
     queryset = Operation.objects.all()
 
-    # filter_backends = [DjangoFilterBackend]
-    # filterset_class = ProductFilter
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['operation_to', 'operation_from', 'sum', 'date']
 
     def get_queryset(self):
         accounts = Account.objects.filter(user=self.request.user)
@@ -59,3 +71,5 @@ class OperationsViewSet(ModelViewSet):
             return FullOperationSerializer
         else:
             return ShortOperationSerializer
+
+

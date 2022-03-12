@@ -18,7 +18,7 @@ from django.urls import path, include
 from backend import views
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
-router.register("account", views.PersonalAccountsViewSet, basename="personal_accounts")
+router.register("user_accounts", views.PersonalAccountsViewSet, basename="user_accounts")
 router.register("accounts", views.AccountsViewSet, basename="accounts")
 router.register("operations", views.OperationsViewSet, basename="operations")
 

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -20,7 +22,7 @@ class Operation(models.Model):
     sum = models.DecimalField(max_digits=12, decimal_places=2, validators=[
         MinValueValidator(0.01),
         MaxValueValidator(10 ** 9)])
-
+    date = models.DateField(default=datetime.date.today())
     def __str__(self):
         return f'Operation from{self.operation_from} to {self.operation_to}. Sum:{self.sum}'
 
