@@ -12,3 +12,23 @@ services:
 
     ports:
       - 5432:5432
+
+  backend:
+    restart: on-failure:10
+    depends_on:
+      - db
+    image: wallet
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+
+  backend_migrate:
+    restart: 'no'
+    depends_on:
+      - db
+    image: wallet
+    command: 'python /Wallet/Wallet/manage.py migrate'
+    ports:
+      - 8001:8000
