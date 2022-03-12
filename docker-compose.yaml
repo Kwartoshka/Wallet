@@ -32,3 +32,14 @@ services:
     command: 'python /Wallet/Wallet/manage.py migrate'
     ports:
       - 8001:8000
+
+  backend_loaddata:
+    restart: 'no'
+    depends_on:
+      - db
+      - backend_migrate
+      - backend
+    image: wallet
+    command: 'python /Wallet/Wallet/manage.py loaddata db.json'
+    ports:
+      - 8002:8000
